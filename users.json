@@ -1,0 +1,30 @@
+[
+  {
+    "Magazine": {
+      "description": {
+        "title": "Нерегулярний журнал 2",
+        "name": "Видавництво ZXC ",
+        "release Date": "15.11.2023"
+      }
+    },
+    "issue_frequency": "Раз на кілька місяців"
+  },
+  {
+    "Magazine": {
+      "description": {
+        "title": " журнал",
+        "name": "Видавництво XZB",
+        "release Date": "15.11.2022"
+      }
+    },
+    "issue_frequency": "Раз на кілька місяців"
+  },
+  {
+    "description": {
+      "title": "Нерегулярний журнал",
+      "name": "Видавництво XYZ",
+      "release Date": "15.11.2023"
+    },
+    "IssueFrequency": "Щомісячно"
+  }
+]

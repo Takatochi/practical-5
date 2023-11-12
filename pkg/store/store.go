@@ -1,20 +1,17 @@
 package store
 
-type Magazines interface {
-	Periodicals
-	MagazineComparer
+import (
+	"Pz5/app/model"
+	magazzine "Pz5/pkg/magazine"
+)
+
+// MagazineRepository ...
+type MagazineRepository interface {
+	Save(df []magazzine.Magazines) error
+	Load() ([]model.Magazines, error)
 }
 
-// Periodicals Інтерфейс для представлення журналу
-type Periodicals interface {
-	GetFrequency() string
-	PrintInfo()
-}
-
-// MagazineComparer Інтерфейс для порівняння журналів
-type MagazineComparer interface {
-	MagazinesEqual(other Magazines) bool
-	//MagazinesEqual(Magazines) bool
-	//MagazineLess() bool
-	//MagazineGreater() bool
+// Store ...
+type Store interface {
+	Collection() MagazineRepository
 }
