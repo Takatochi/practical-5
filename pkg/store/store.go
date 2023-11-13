@@ -1,14 +1,14 @@
 package store
 
 import (
-	"Pz5/app/model"
-	magazzine "Pz5/pkg/magazine"
+	mag "Pz5/app/model"
+	"Pz5/app/model/magazine"
 )
 
 // MagazineRepository ...
 type MagazineRepository interface {
-	SaveJSON(df []magazzine.Magazines) error
-	LoadJSON() (*model.Collection, error)
+	SaveJSON(df []mag.Magazines) error
+	LoadJSON() (*magazine.Collection, error)
 }
 
 // Store ...

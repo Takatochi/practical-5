@@ -1,8 +1,8 @@
 package dataJson
 
 import (
-	"Pz5/app/model"
-	magazzine "Pz5/pkg/magazine"
+	magazzine "Pz5/app/model"
+	"Pz5/app/model/magazine"
 	"encoding/json"
 	"fmt"
 	"io/ioutil"
@@ -14,7 +14,7 @@ type MagazineRepository struct {
 
 // SaveJSON функція для збереження користувачів у JSON-файл
 func (m *MagazineRepository) SaveJSON(df []magazzine.Magazines) error {
-	collection := model.NewCollectionFromMagazines(df...)
+	collection := magazine.NewCollectionFromMagazines(df...)
 	data, err := json.MarshalIndent(collection, " ", "	")
 	if err != nil {
 		return err
@@ -29,14 +29,14 @@ func (m *MagazineRepository) SaveJSON(df []magazzine.Magazines) error {
 }
 
 // LoadJSON функція для завантаження користувачів з JSON-файлу
-func (m *MagazineRepository) LoadJSON() (*model.Collection, error) {
+func (m *MagazineRepository) LoadJSON() (*magazine.Collection, error) {
 
 	data, err := ioutil.ReadFile(m.store.fileName)
 	if err != nil {
 		return nil, err
 	}
 
-	var df model.Collection
+	var df magazine.Collection
 	err = json.Unmarshal(data, &df)
 
 	if err != nil {
