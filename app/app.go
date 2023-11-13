@@ -3,20 +3,19 @@ package app
 import (
 	"Pz5/app/model"
 	magazzine "Pz5/pkg/magazine"
-	"encoding/json"
+	"Pz5/pkg/store/dataJson"
 	"fmt"
-	"io/ioutil"
-	"log"
 )
 
 func Run() error {
-
+	store := dataJson.New("data.json")
 	// Створення екземпляра MonthlyMagazine за допомогою експортованого конструктора
+
 	NewMonthlyMagazine := model.NewMonthlyMagazine("Monthly Journal", "Publisher XYZ", "2023-11-10")
 
 	// Створення екземпляра нерегулярного журналу за допомогою конструктора
 	irregularMagazineInstance := model.NewIrregularMagazine("Нерегулярний журнал", "Видавництво XYZ", "15.11.2023")
-	//coll := model.Collection{IrregularMagazine: &irregularMagazineInstance, MonthlyMagazine: &NewMonthlyMagazine}
+
 	// Використання інтерфейсу для обробки нерегулярного журналу
 	err := processPeriodical(irregularMagazineInstance)
 	if err != nil {
@@ -29,7 +28,7 @@ func Run() error {
 
 	var irregularMagazineInstanceSlice []magazzine.Magazines
 	irregularMagazineInstanceSlice = append(irregularMagazineInstanceSlice, model.NewIrregularMagazine("Нерегулярний журнал 2", "Видавництво ZXC ", "15.11.2023"))
-	irregularMagazineInstanceSlice = append(irregularMagazineInstanceSlice, model.NewIrregularMagazine(" журнал", "Видавництво XZB", "15.11.2022"))
+	irregularMagazineInstanceSlice = append(irregularMagazineInstanceSlice, model.NewIrregularMagazine("Нерегулярний журнал 2", "Видавництво ZXC ", "15.11.2023"))
 	irregularMagazineInstanceSlice = append(irregularMagazineInstanceSlice, model.NewMonthlyMagazine("Нерегулярний журнал", "Видавництво XYZ", "15.11.2023"))
 	//irregularMagazineInstanceSlice[0].PrintInfo()
 
@@ -48,21 +47,54 @@ func Run() error {
 	//	fmt.Println("Журнали не рівні")
 	//}
 	// Збереження користувачів у JSON-файл
-
-	err = SaveUsers(irregularMagazineInstanceSlice, "data.json")
-
+	err = store.Collection().Save(irregularMagazineInstanceSlice)
 	if err != nil {
-		log.Fatal(err)
+		return err
 	}
-	df, err := LoadUsers("data.json")
-	if err != nil {
-		log.Fatal(err)
-	}
-	fmt.Println(df[0].Description)
+	//err = SaveUsers(irregularMagazineInstanceSlice, "data.json")
+	//
+	//if err != nil {
+	//	log.Fatal(err)
+	//}
+	//df, err := LoadUsers("data.json")
+	//if err != nil {
+	//	log.Fatal(err)
+	//}
+	//load, err := store.Collection().Load()
+	//if err != nil {
+	//	return err
+	//}
+	//fmt.Print(load[0])
+	//err = processSlicePeriodicalComparer(load)
+	//if err != nil {
+	//	return err
+	//}
 	//err = processSlicePeriodical(df)
 	if err != nil {
 		return err
 	}
+
+	// Припустимо, що у вас є екземпляр MonthlyMagazine та IrregularMagazine
+	monthlyMagazine := model.NewMonthlyMagazine("Monthly Journal", "Publisher XYZ", "2023-11-10")
+	irregularMagazineInstances := model.NewIrregularMagazine("Нерегулярний журнал", "Видавництво XYZ", "15.11.2023")
+
+	// Створення колекції з цих екземплярів
+	collection := model.NewCollectionFromMagazines(monthlyMagazine)
+	df := collection.AddMagazines(irregularMagazineInstances)
+	// Виведення елементів IrregularMagazine
+	fmt.Println("MonthlyMagazine:")
+	for _, mag := range collection.MonthlyMagazine {
+		fmt.Printf("Назва: %s\nВидавець: %s\nДата виходу: %s\n", mag.Description.Title, mag.Description.Publisher, mag.Description.ReleaseDate)
+		fmt.Printf("Частота виходу: %s\n", mag.GetFrequency())
+		fmt.Println()
+	}
+	fmt.Println("IrregularMagazine:")
+	for _, mag := range collection.IrregularMagazine {
+		fmt.Printf("Назва: %s\nВидавець: %s\nДата виходу: %s\n", mag.Description.Title, mag.Description.Publisher, mag.Description.ReleaseDate)
+		fmt.Printf("Частота виходу: %s\n", mag.GetFrequency())
+		fmt.Println()
+	}
+
 	return nil
 }
 
@@ -109,35 +141,4 @@ func processPeriodical(p magazzine.Periodicals) error {
 	fmt.Printf("Обробка видання - Частота виходу: %s\n", p.GetFrequency())
 	p.PrintInfo()
 	return nil
-}
-
-// SaveUsers функція для збереження користувачів у JSON-файл
-func SaveUsers(df []magazzine.Magazines, filename string) error {
-	data, err := json.MarshalIndent(df, " ", "	")
-	if err != nil {
-		return err
-	}
-
-	err = ioutil.WriteFile(filename, data, 0644)
-	if err != nil {
-		return err
-	}
-	fmt.Printf("magazines saved to %s\n", filename)
-	return nil
-}
-
-// LoadUsers функція для завантаження користувачів з JSON-файлу
-func LoadUsers(filename string) ([]model.Magazines, error) {
-	data, err := ioutil.ReadFile(filename)
-	if err != nil {
-		return nil, err
-	}
-
-	var df []model.Magazines
-	err = json.Unmarshal(data, &df)
-	if err != nil {
-		return nil, err
-	}
-
-	return df, nil
 }

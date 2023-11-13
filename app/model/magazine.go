@@ -31,8 +31,3 @@ func (m Magazines) PrintInfo() {
 func (m Magazines) GetFrequency() string {
 	return m.IssueFrequency
 }
-
-//// SaveUsers функція для збереження користувачів у JSON-файл
-//func (m magazines) SaveUsers(filename string) error {
-//
-//}
