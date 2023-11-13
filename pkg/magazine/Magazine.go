@@ -12,6 +12,7 @@ type Magazines interface {
 type Periodicals interface {
 	GetFrequency() string
 	PrintInfo()
+
 	//SaveUsers(string) error
 }
 
@@ -23,3 +24,8 @@ type MagazineComparer interface {
 	//MagazineLess() bool
 	//MagazineGreater() bool
 }
+
+//type Collection interface {
+//	model.Collection
+//	Periodicals
+//}

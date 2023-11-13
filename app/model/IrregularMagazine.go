@@ -3,19 +3,19 @@ package model
 import mag "Pz5/pkg/magazine"
 
 type IrregularMagazine struct {
-	*Magazines
+	*Magazine `json:"magazine"`
 }
 
 // NewIrregularMagazine Конструктор для створення нового журналу, що виходить раз на кілька місяців
 func NewIrregularMagazine(title, publisher, releaseDate string) IrregularMagazine {
 	return IrregularMagazine{
-		Magazines: NewMagazine(title, publisher, releaseDate, "Раз на кілька місяців"),
+		Magazine: newMagazine(title, publisher, releaseDate, "Раз на кілька місяців"),
 	}
 }
 
 // GetFrequency Метод для отримання частоти виходу журналу, що виходить раз на кілька місяців
 func (i IrregularMagazine) GetFrequency() string {
-	return i.Magazines.GetFrequency()
+	return i.Magazine.GetFrequency()
 }
 
 // MagazinesEqual == Реалізація методу для порівняння журналів

@@ -1,26 +1,36 @@
-[
- 	{
- 		"description": {
- 			"title": "Нерегулярний журнал 2",
- 			"name": "Видавництво ZXC ",
- 			"releaseDate": "15.11.2023"
+{
+ 	"irregularMagazine": [
+ 		{
+ 			"magazine": {
+ 				"description": {
+ 					"title": "Нерегулярний журнал 2",
+ 					"name": "Видавництво ZXC ",
+ 					"releaseDate": "15.11.2023"
+ 				},
+ 				"issue_frequency": "Раз на кілька місяців"
+ 			}
  		},
- 		"issue_frequency": "Раз на кілька місяців"
- 	},
- 	{
- 		"description": {
- 			"title": "Нерегулярний журнал 2",
- 			"name": "Видавництво ZXC ",
- 			"releaseDate": "15.11.2023"
- 		},
- 		"issue_frequency": "Раз на кілька місяців"
- 	},
- 	{
- 		"description": {
- 			"title": "Нерегулярний журнал",
- 			"name": "Видавництво XYZ",
- 			"releaseDate": "15.11.2023"
- 		},
- 		"issue_frequency": "Щомісячно"
- 	}
- ]
+ 		{
+ 			"magazine": {
+ 				"description": {
+ 					"title": "Нерегулярний журнал 2",
+ 					"name": "Видавництво ZXC ",
+ 					"releaseDate": "15.11.2023"
+ 				},
+ 				"issue_frequency": "Раз на кілька місяців"
+ 			}
+ 		}
+ 	],
+ 	"monthlyMagazine": [
+ 		{
+ 			"magazine": {
+ 				"description": {
+ 					"title": "Нерегулярний журнал",
+ 					"name": "Видавництво XYZ",
+ 					"releaseDate": "15.11.2023"
+ 				},
+ 				"issue_frequency": "Щомісячно"
+ 			}
+ 		}
+ 	]
+ }

@@ -7,8 +7,8 @@ import (
 
 // MagazineRepository ...
 type MagazineRepository interface {
-	Save(df []magazzine.Magazines) error
-	Load() ([]model.Magazines, error)
+	SaveJSON(df []magazzine.Magazines) error
+	LoadJSON() (*model.Collection, error)
 }
 
 // Store ...

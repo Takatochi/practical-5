@@ -12,9 +12,10 @@ type MagazineRepository struct {
 	store *Store
 }
 
-// Save функція для збереження користувачів у JSON-файл
-func (m *MagazineRepository) Save(df []magazzine.Magazines) error {
-	data, err := json.MarshalIndent(df, " ", "	")
+// SaveJSON функція для збереження користувачів у JSON-файл
+func (m *MagazineRepository) SaveJSON(df []magazzine.Magazines) error {
+	collection := model.NewCollectionFromMagazines(df...)
+	data, err := json.MarshalIndent(collection, " ", "	")
 	if err != nil {
 		return err
 	}
@@ -27,18 +28,20 @@ func (m *MagazineRepository) Save(df []magazzine.Magazines) error {
 	return nil
 }
 
-// Load функція для завантаження користувачів з JSON-файлу
-func (m *MagazineRepository) Load() ([]model.Magazines, error) {
+// LoadJSON функція для завантаження користувачів з JSON-файлу
+func (m *MagazineRepository) LoadJSON() (*model.Collection, error) {
+
 	data, err := ioutil.ReadFile(m.store.fileName)
 	if err != nil {
 		return nil, err
 	}
 
-	var df []model.Magazines
+	var df model.Collection
 	err = json.Unmarshal(data, &df)
+
 	if err != nil {
 		return nil, err
 	}
-
-	return df, nil
+	fmt.Printf("magazines load %s\n", m.store.fileName)
+	return &df, nil
 }

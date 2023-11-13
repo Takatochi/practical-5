@@ -11,20 +11,20 @@ func Run() error {
 	store := dataJson.New("data.json")
 	// Створення екземпляра MonthlyMagazine за допомогою експортованого конструктора
 
-	NewMonthlyMagazine := model.NewMonthlyMagazine("Monthly Journal", "Publisher XYZ", "2023-11-10")
-
-	// Створення екземпляра нерегулярного журналу за допомогою конструктора
-	irregularMagazineInstance := model.NewIrregularMagazine("Нерегулярний журнал", "Видавництво XYZ", "15.11.2023")
-
-	// Використання інтерфейсу для обробки нерегулярного журналу
-	err := processPeriodical(irregularMagazineInstance)
-	if err != nil {
-		return err
-	}
-	err = processPeriodical(NewMonthlyMagazine)
-	if err != nil {
-		return err
-	}
+	//NewMonthlyMagazine := model.NewMonthlyMagazine("Monthly Journal", "Publisher XYZ", "2023-11-10")
+	//
+	//// Створення екземпляра нерегулярного журналу за допомогою конструктора
+	//irregularMagazineInstance := model.NewIrregularMagazine("Нерегулярний журнал", "Видавництво XYZ", "15.11.2023")
+	//
+	//// Використання інтерфейсу для обробки нерегулярного журналу
+	//err := processPeriodical(irregularMagazineInstance)
+	//if err != nil {
+	//	return err
+	//}
+	//err = processPeriodical(NewMonthlyMagazine)
+	//if err != nil {
+	//	return err
+	//}
 
 	var irregularMagazineInstanceSlice []magazzine.Magazines
 	irregularMagazineInstanceSlice = append(irregularMagazineInstanceSlice, model.NewIrregularMagazine("Нерегулярний журнал 2", "Видавництво ZXC ", "15.11.2023"))
@@ -32,7 +32,7 @@ func Run() error {
 	irregularMagazineInstanceSlice = append(irregularMagazineInstanceSlice, model.NewMonthlyMagazine("Нерегулярний журнал", "Видавництво XYZ", "15.11.2023"))
 	//irregularMagazineInstanceSlice[0].PrintInfo()
 
-	err = processSlicePeriodical(irregularMagazineInstanceSlice)
+	err := processSlicePeriodical(irregularMagazineInstanceSlice)
 	if err != nil {
 		return err
 	}
@@ -46,53 +46,39 @@ func Run() error {
 	//} else {
 	//	fmt.Println("Журнали не рівні")
 	//}
-	// Збереження користувачів у JSON-файл
-	err = store.Collection().Save(irregularMagazineInstanceSlice)
-	if err != nil {
-		return err
-	}
-	//err = SaveUsers(irregularMagazineInstanceSlice, "data.json")
-	//
-	//if err != nil {
-	//	log.Fatal(err)
-	//}
-	//df, err := LoadUsers("data.json")
-	//if err != nil {
-	//	log.Fatal(err)
-	//}
-	//load, err := store.Collection().Load()
-	//if err != nil {
-	//	return err
-	//}
-	//fmt.Print(load[0])
-	//err = processSlicePeriodicalComparer(load)
-	//if err != nil {
-	//	return err
-	//}
-	//err = processSlicePeriodical(df)
+
 	if err != nil {
 		return err
 	}
 
 	// Припустимо, що у вас є екземпляр MonthlyMagazine та IrregularMagazine
-	monthlyMagazine := model.NewMonthlyMagazine("Monthly Journal", "Publisher XYZ", "2023-11-10")
-	irregularMagazineInstances := model.NewIrregularMagazine("Нерегулярний журнал", "Видавництво XYZ", "15.11.2023")
+	//monthlyMagazine := model.NewMonthlyMagazine("Monthly Journal", "Publisher XYZ", "2023-11-10")
+	//irregularMagazineInstances := model.NewIrregularMagazine("Нерегулярний журнал", "Видавництво XYZ", "15.11.2023")
 
 	// Створення колекції з цих екземплярів
-	collection := model.NewCollectionFromMagazines(monthlyMagazine)
-	df := collection.AddMagazines(irregularMagazineInstances)
-	// Виведення елементів IrregularMagazine
-	fmt.Println("MonthlyMagazine:")
-	for _, mag := range collection.MonthlyMagazine {
-		fmt.Printf("Назва: %s\nВидавець: %s\nДата виходу: %s\n", mag.Description.Title, mag.Description.Publisher, mag.Description.ReleaseDate)
-		fmt.Printf("Частота виходу: %s\n", mag.GetFrequency())
-		fmt.Println()
+	//collection := model.NewCollectionFromMagazines(monthlyMagazine)
+	//collection.AddMagazines(irregularMagazineInstances)
+	////// Виведення елементів IrregularMagazine
+	//fmt.Println("df")
+	//err = processPeriodical(collection)
+
+	//err = processSlicePeriodical(df)
+	if err != nil {
+		return err
 	}
-	fmt.Println("IrregularMagazine:")
-	for _, mag := range collection.IrregularMagazine {
-		fmt.Printf("Назва: %s\nВидавець: %s\nДата виходу: %s\n", mag.Description.Title, mag.Description.Publisher, mag.Description.ReleaseDate)
-		fmt.Printf("Частота виходу: %s\n", mag.GetFrequency())
-		fmt.Println()
+	// Збереження користувачів у JSON-файл
+	err = store.Collection().SaveJSON(irregularMagazineInstanceSlice)
+	if err != nil {
+		return err
+	}
+	load, err := store.Collection().LoadJSON()
+
+	err = processSlicePeriodicalComparer(load.AddDefaultMagazines())
+	if err != nil {
+		return err
+	}
+	if err != nil {
+		return err
 	}
 
 	return nil

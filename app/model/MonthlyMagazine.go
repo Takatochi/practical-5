@@ -3,19 +3,19 @@ package model
 import mag "Pz5/pkg/magazine"
 
 type MonthlyMagazine struct {
-	*Magazines
+	*Magazine `json:"magazine"`
 }
 
 // NewMonthlyMagazine Конструктор для створення нового щомісячного журналу
 func NewMonthlyMagazine(title, publisher, releaseDate string) MonthlyMagazine {
 	return MonthlyMagazine{
-		Magazines: NewMagazine(title, publisher, releaseDate, "Щомісячно"),
+		Magazine: newMagazine(title, publisher, releaseDate, "Щомісячно"),
 	}
 }
 
 // GetFrequency Метод для отримання частоти виходу щомісячного журналу
 func (m MonthlyMagazine) GetFrequency() string {
-	return m.Magazines.GetFrequency()
+	return m.Magazine.GetFrequency()
 }
 
 // MagazinesEqual Реалізація методу для порівняння журналів
