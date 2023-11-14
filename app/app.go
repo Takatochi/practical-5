@@ -46,10 +46,10 @@ func Run() error {
 	if err != nil {
 		return err
 	}
-	err = processSlicePeriodicalComparer(irregularMagazineInstanceSlice)
-	if err != nil {
-		return err
-	}
+	//err = processSlicePeriodicalComparer(irregularMagazineInstanceSlice)
+	//if err != nil {
+	//	return err
+	//}
 
 	// Збереження користувачів у JSON-файл
 	err = store.Collection().SaveJSON(irregularMagazineInstanceSlice)
@@ -75,38 +75,38 @@ func processSlicePeriodical(magazines []model.Magazines) error {
 	return nil
 }
 
-func processSlicePeriodicalComparer(magazines []model.Magazines) error {
-	n := len(magazines)
-
-	for i := 0; i < n; i++ {
-		for j := i + 1; j < n; j++ {
-			if magazines[i].MagazinesEqual(magazines[j]) {
-				fmt.Println("Журнали рівні\n")
-				err := processPeriodical(magazines[i])
-				if err != nil {
-					return err
-				}
-				err = processPeriodical(magazines[j])
-				if err != nil {
-					return err
-				}
-
-			} else {
-				fmt.Println("Журнали не рівні\n")
-				err := processPeriodical(magazines[i])
-				if err != nil {
-					return err
-				}
-				err = processPeriodical(magazines[j])
-				if err != nil {
-					return err
-				}
-			}
-		}
-	}
-
-	return nil
-}
+//	func processSlicePeriodicalComparer(magazines []model.Magazines) error {
+//		n := len(magazines)
+//
+//		for i := 0; i < n; i++ {
+//			for j := i + 1; j < n; j++ {
+//				if magazines[i].MagazinesEqual(magazines[j]) {
+//					fmt.Println("Журнали рівні\n")
+//					err := processPeriodical(magazines[i])
+//					if err != nil {
+//						return err
+//					}
+//					err = processPeriodical(magazines[j])
+//					if err != nil {
+//						return err
+//					}
+//
+//				} else {
+//					fmt.Println("Журнали не рівні\n")
+//					err := processPeriodical(magazines[i])
+//					if err != nil {
+//						return err
+//					}
+//					err = processPeriodical(magazines[j])
+//					if err != nil {
+//						return err
+//					}
+//				}
+//			}
+//		}
+//
+//		return nil
+//	}
 func processPeriodical(p model.Periodicals) error {
 
 	fmt.Printf("Обробка видання - Частота виходу: %s\n", p.GetFrequency())
