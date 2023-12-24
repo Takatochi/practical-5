@@ -5,7 +5,7 @@ import (
 	"Pz5/app/model/magazine"
 	"encoding/json"
 	"fmt"
-	"io/ioutil"
+	"os"
 )
 
 type MagazineRepository struct {
@@ -20,7 +20,7 @@ func (m *MagazineRepository) SaveJSON(df []magazzine.Magazines) error {
 		return err
 	}
 
-	err = ioutil.WriteFile(m.store.fileName, data, 0644)
+	err = os.WriteFile(m.store.fileName, data, 0644)
 	if err != nil {
 		return err
 	}
@@ -31,7 +31,7 @@ func (m *MagazineRepository) SaveJSON(df []magazzine.Magazines) error {
 // LoadJSON функція для завантаження користувачів з JSON-файлу
 func (m *MagazineRepository) LoadJSON() (*magazine.Collection, error) {
 
-	data, err := ioutil.ReadFile(m.store.fileName)
+	data, err := os.ReadFile(m.store.fileName)
 	if err != nil {
 		return nil, err
 	}

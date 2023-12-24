@@ -6,16 +6,21 @@ import (
 	"Pz5/pkg/store"
 	"Pz5/pkg/store/dataJson"
 	"github.com/stretchr/testify/assert"
-	"io/ioutil"
 	"os"
 	"testing"
 )
 
 func TestMagazineRepository_SaveAndLoadJSON(t *testing.T) {
 	// Create a temporary file for testing
-	tempFile, err := ioutil.TempFile("", "test_magazine.json")
+	dir := os.TempDir()
+	file, err := os.CreateTemp(dir, "bench_magazine.json")
 	assert.NoError(t, err)
-	defer os.Remove(tempFile.Name())
+	defer func(name string) {
+		err := os.Remove(name)
+		if err != nil {
+
+		}
+	}(file.Name())
 
 	// Create a sample data to save
 	NewMonthlyMagazine := mag.NewMonthlyMagazine("Monthly Journal", "Publisher XYZ", "2023-11-10")
@@ -25,14 +30,14 @@ func TestMagazineRepository_SaveAndLoadJSON(t *testing.T) {
 	collection := mag.NewCollectionFromMagazines(NewMonthlyMagazine, irregularMagazineInstance)
 	magazinesToSave := collection.AddDefaultMagazines()
 	// Create Store and MagazineRepository
-	store := dataJson.New(tempFile.Name())
+	mRepo := createTestMagazineRepository(file.Name())
 
 	// Save the sample data
-	err = store.Collection().SaveJSON(magazinesToSave)
+	err = mRepo.SaveJSON(magazinesToSave)
 	assert.NoError(t, err)
 
 	// Load the data back
-	loadedCollection, err := store.Collection().LoadJSON()
+	loadedCollection, err := mRepo.LoadJSON()
 	assert.NoError(t, err)
 
 	// Verify that the loaded data matches the original data
@@ -52,24 +57,30 @@ func TestMagazineRepository_SaveAndLoadJSON(t *testing.T) {
 func TestStore_Collection(t *testing.T) {
 	// Create a sample Store
 	dbFileName := "test_db.json"
-	store := dataJson.New(dbFileName)
+	magRepo := dataJson.New(dbFileName)
 
 	// Get the MagazineRepository from the Store
-	magRepo := store.Collection()
 
 	// Ensure that the returned MagazineRepository is not nil
 	assert.NotNil(t, magRepo)
 }
 
 func BenchmarkMagazineRepository_SaveJSON(b *testing.B) {
-	tempFile, err := ioutil.TempFile("", "bench_magazine.json")
+	dir := os.TempDir()
+	file, err := os.CreateTemp(dir, "bench_magazine.json")
 	if err != nil {
 		b.Fatal(err)
 	}
-	defer os.Remove(tempFile.Name())
+
+	defer func(name string) {
+		err := os.Remove(name)
+		if err != nil {
+
+		}
+	}(file.Name())
 
 	magazinesToSave := generateTestMagazines(1000) // Assuming you have a function to generate test magazines
-	mRepo := createTestMagazineRepository(tempFile.Name())
+	mRepo := createTestMagazineRepository(file.Name())
 
 	b.ResetTimer()
 	for i := 0; i < b.N; i++ {
@@ -81,14 +92,20 @@ func BenchmarkMagazineRepository_SaveJSON(b *testing.B) {
 }
 
 func BenchmarkMagazineRepository_LoadJSON(b *testing.B) {
-	tempFile, err := ioutil.TempFile("", "bench_magazine.json")
+	dir := os.TempDir()
+	file, err := os.CreateTemp(dir, "bench_magazine.json")
 	if err != nil {
 		b.Fatal(err)
 	}
-	defer os.Remove(tempFile.Name())
+	defer func(name string) {
+		err := os.Remove(name)
+		if err != nil {
+
+		}
+	}(file.Name())
 
 	magazinesToSave := generateTestMagazines(1000) // Assuming you have a function to generate test magazines
-	mRepo := createTestMagazineRepository(tempFile.Name())
+	mRepo := createTestMagazineRepository(file.Name())
 	err = mRepo.SaveJSON(magazinesToSave)
 	if err != nil {
 		b.Fatal(err)
@@ -120,6 +137,6 @@ func generateTestMagazines(count int) []model.Magazines {
 }
 
 func createTestMagazineRepository(fileName string) store.MagazineRepository {
-	store := dataJson.New(fileName)
-	return store.Collection()
+	mRepo := dataJson.New(fileName)
+	return mRepo.Collection()
 }

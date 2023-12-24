@@ -9,7 +9,6 @@ import (
 type Collection struct {
 	IrregularMagazine []IrregularMagazine `json:"irregularMagazine"`
 	MonthlyMagazine   []MonthlyMagazine   `json:"monthlyMagazine"`
-	magazines         []model.Magazines
 }
 
 func NewCollectionFromMagazines(magazines ...model.Magazines) *Collection {

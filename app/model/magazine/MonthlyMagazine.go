@@ -26,7 +26,7 @@ func (m MonthlyMagazine) MagazinesEqual(other mag.Magazines) bool {
 		return m.Description.Title == otherMag.Description.Title &&
 			m.Description.Publisher == otherMag.Description.Publisher &&
 			m.Description.ReleaseDate == otherMag.Description.ReleaseDate &&
-			m.IssueFrequency == otherMag.IssueFrequency
+			m.GetFrequency() == otherMag.GetFrequency()
 	}
 	return false
 }

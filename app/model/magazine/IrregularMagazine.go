@@ -26,7 +26,7 @@ func (i IrregularMagazine) MagazinesEqual(other model.Magazines) bool {
 		return i.Description.Title == otherMag.Description.Title &&
 			i.Description.Publisher == otherMag.Description.Publisher &&
 			i.Description.ReleaseDate == otherMag.Description.ReleaseDate &&
-			i.IssueFrequency == otherMag.IssueFrequency
+			i.GetFrequency() == otherMag.GetFrequency()
 	}
 	return false
 }

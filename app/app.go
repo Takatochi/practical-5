@@ -21,6 +21,7 @@ func Run() error {
 	if err != nil {
 		return err
 	}
+
 	err = processPeriodical(NewMonthlyMagazine)
 	if err != nil {
 		return err
